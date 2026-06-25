@@ -1,16 +1,23 @@
 package com.project0;
 import java.util.Scanner;
-import com.project0.LoginManager;
+import com.project0.dao.loginDAO;
+
 public class App 
 {
-    static String Username;
-    static String Password;
     public static void main( String[] args )
     {
+        
         Scanner input = new Scanner(System.in);
         //initialize for login details
-        initializeApp(input);
-        
+        boolean isrunning = false;
+
+        while(isrunning == false){
+            isrunning = initializeApp(input);
+            if(isrunning == false){
+                System.out.println("Invalid Username or Password");
+            }
+        }
+
         // ASCII art for welcome message
         System.out.println(" __      __       .__                                \r\n" + //
                         "/  \\    /  \\ ____ |  |   ____  ____   _____   ____   \r\n" + //
@@ -18,9 +25,8 @@ public class App
                         " \\        /\\  ___/|  |_\\  \\__(  <_> )  Y Y  \\  ___/  \r\n" + //
                         "  \\__/\\  /  \\___  >____/\\___  >____/|__|_|  /\\___  > \r\n" + //
                         "       \\/       \\/          \\/            \\/     \\/  ");
+
         // main loop
-        
-        boolean isrunning = true;
         while (isrunning == true){
             System.out.println("L: List Pending Expenses");
             System.out.println("A: Approve OR Deny Expenses");
@@ -51,6 +57,8 @@ public class App
                     input.close();
                     isrunning = false;
                     System.out.println("Exiting Manager Application. Goodbye!");
+
+                    System.exit(0);
                     break;
                 }
                 default: {
@@ -58,16 +66,24 @@ public class App
                 }
             }
         }
-
-
         }
 
-    public static void initializeApp(Scanner input){
+    public static boolean initializeApp(Scanner input){
+
         System.out.println("Initializing Manager Application...");
         System.out.println("Please enter your username: ");
-        Username = input.next();
+        String username = input.next();
         System.out.println("Please enter your password: ");
-        Password = input.next();
-        LoginManager Session = new LoginManager(Username, Password);
+        String password = input.next();
+        loginDAO session = new loginDAO();
+        boolean success = session.login(username, password);
+
+        if(success == true){
+            System.out.println("Login Successful.");
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }
