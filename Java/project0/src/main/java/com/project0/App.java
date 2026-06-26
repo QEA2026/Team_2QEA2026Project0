@@ -1,6 +1,6 @@
 package com.project0;
 import java.util.Scanner;
-import com.project0.dao.loginDAO;
+import com.project0.dao.*;
 
 public class App 
 {
@@ -37,15 +37,15 @@ public class App
 
             switch(input.next()){
                 case "L": {
-                    // List pending expenses
+                    managerDAO.listExpenses();
                     break;
                 }
                 case "A": {
-                    // Approve or deny expenses
+                    //approve / deny expenses
                     break;
                 }
                 case "C": {
-                    // Add comments to expense decisions
+                    //comment
                     break;
                 }
                 case "G": {
