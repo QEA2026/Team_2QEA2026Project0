@@ -12,7 +12,7 @@ public class loginDAO {
         this.username = username;
         this.password = password;
 
-        String sql = "SELECT * FROM users WHERE username=? AND password=? AND role='MANAGER'";
+        String sql = "SELECT * FROM users WHERE username=? AND password=? AND role='manager'";
         
         try(
             Connection conn = ConnectManager.getConnection();

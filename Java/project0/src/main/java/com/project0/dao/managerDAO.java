@@ -16,8 +16,7 @@ public class managerDAO {
         "FROM expenses e " +
         "JOIN users u ON e.user_id = u.id " +
         "JOIN approvals a ON e.id = a.expense_id " +
-        "WHERE a.status = 'Pending'";
-
+        "WHERE a.status = 'pending'";
     try (
         Connection conn = ConnectManager.getConnection();
         PreparedStatement stmt = conn.prepareStatement(sql);
@@ -51,6 +50,6 @@ public class managerDAO {
     public void generateReports(){
         //todo
         //reports, order by expenses amount per employee?
-        
+
     }
 }
