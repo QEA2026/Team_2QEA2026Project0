@@ -41,7 +41,8 @@ public class App
                     break;
                 }
                 case "A": {
-                    //approve / deny expenses
+                    managerDAO managerDAO = new managerDAO();
+                    managerDAO.approveDenyExpenses(input);
                     break;
                 }
                 case "C": {
