@@ -51,7 +51,7 @@ public class App
                     break;
                 }
                 case "G": {
-                    // Generate reports
+                    managerDAO.generateReports(input);
                     break;
                 }
                 case "Q": {
