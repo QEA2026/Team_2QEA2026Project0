@@ -6,6 +6,7 @@ public class loginDAO {
 
     @SuppressWarnings("unused")
     private String username;
+    @SuppressWarnings("unused")
     private String password;
 
     public boolean login(String username, String password){

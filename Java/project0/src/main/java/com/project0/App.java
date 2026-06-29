@@ -35,18 +35,19 @@ public class App
             System.out.println("Q: Quit Application");
             System.out.println("Please enter your operation: ");
 
+
+            managerDAO managerDAO = new managerDAO();
             switch(input.next()){
                 case "L": {
                     managerDAO.listExpenses();
                     break;
                 }
                 case "A": {
-                    managerDAO managerDAO = new managerDAO();
                     managerDAO.approveDenyExpenses(input);
                     break;
                 }
                 case "C": {
-                    //comment
+                    managerDAO.commentExpenses(input);
                     break;
                 }
                 case "G": {

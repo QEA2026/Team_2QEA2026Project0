@@ -10,10 +10,11 @@ import com.project0.util.ConnectManager;
 
 public class managerDAO {
     
-    public static void listExpenses() {
+    public void listExpenses() {
 
     String sql =
-        "SELECT e.id, u.username, e.amount, e.description, e.date, a.status " +
+        "SELECT e.id, u.username, e.amount, e.description, e.date, " +
+        "a.status, a.comment " +
         "FROM expenses e " +
         "JOIN users u ON e.user_id = u.id " +
         "JOIN approvals a ON e.id = a.expense_id";
@@ -32,6 +33,7 @@ public class managerDAO {
             System.out.println("Reason   : " + rs.getString("description"));
             System.out.println("Date     : " + rs.getString("date"));
             System.out.println("Status   : " + rs.getString("status"));
+            System.out.println("Comment  : " + rs.getString("comment"));
         }
 
     } catch (SQLException e) {
@@ -117,7 +119,7 @@ public class managerDAO {
         if (rows > 0) {
             System.out.println("Expense " + expenseId + " has been " + status + ".");
         } else {
-            System.out.println("Expense not found or already processed.");
+            System.out.println("Expense not found.");
         }
 
     } catch (SQLException e) {
@@ -126,13 +128,45 @@ public class managerDAO {
 }
 
 
-    public void commentExpenses(){
-        //todo
+    public void commentExpenses(Scanner input){
+        listExpenses();
+        System.out.println("Please enter the ID of the expense to comment (0 to cancel): ");
+        int expenseId = input.nextInt();
+
+        if (expenseId == 0){
+            System.out.println("Canceling Operation");
+            return;
+        }
+
+        System.out.println("Enter comment: ");
+        input.nextLine();
+        String comment = input.nextLine();
+
+        String sql = "UPDATE approvals SET comment = ? WHERE expense_id = ? ";
+
+        try (
+        Connection conn = ConnectManager.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(sql)
+    ) {
+
+        stmt.setString(1, comment);
+        stmt.setInt(2, expenseId);
+
+        int rows = stmt.executeUpdate();
+
+        if (rows > 0) {
+            System.out.println("Comment added successfully.");
+        } else {
+            System.out.println("Expense not found.");
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+}
+
 
     public void generateReports(){
         //todo
-        //reports, order by expenses amount per employee?
-
     }
 }
