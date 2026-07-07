@@ -3,6 +3,7 @@ import sqlite3
 conn = sqlite3.connect("../database/expense_manager.db")
 cursor = conn.cursor()
 
+
 print("=" * 40)
 print("     Revature Expense Manager")
 print("=" * 40)
@@ -64,7 +65,7 @@ while True:
 
         cursor.execute(
             """
-            SELECT e.id, e.amount, e.description, e.date, a.status
+            SELECT e.id, e.amount, e.description, e.date, a.status, a.comment
             FROM expenses e
             JOIN approvals a
             ON e.id = a.expense_id
@@ -87,6 +88,7 @@ Amount: ${expense[1]}
 Description: {expense[2]}
 Date: {expense[3]}
 Status: {expense[4]}
+Manager Comment: {expense[5] if expense[5] else "No comment"}
 -----------------------
 """)
 
