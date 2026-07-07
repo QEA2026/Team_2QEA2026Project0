@@ -1,6 +1,9 @@
 package com.project0;
+import java.util.List;
 import java.util.Scanner;
 import com.project0.dao.*;
+import com.project0.model.Expense;
+import com.project0.util.ExpensePrinter;
 
 public class App 
 {
@@ -27,6 +30,7 @@ public class App
                         "       \\/       \\/          \\/            \\/     \\/  ");
 
         // main loop
+        managerDAO manager = new managerDAO();
         while (isrunning == true){
             System.out.println("L: List Pending Expenses");
             System.out.println("A: Approve OR Deny Expenses");
@@ -34,24 +38,21 @@ public class App
             System.out.println("G: Generate Reports");
             System.out.println("Q: Quit Application");
             System.out.println("Please enter your operation: ");
-
-
-            managerDAO managerDAO = new managerDAO();
             switch(input.next()){
                 case "L": {
-                    managerDAO.listExpenses();
+                    listExpenses(manager);
                     break;
                 }
                 case "A": {
-                    managerDAO.approveDenyExpenses(input);
+                    approveDenyExpenses(input, manager);
                     break;
                 }
                 case "C": {
-                    managerDAO.commentExpenses(input);
+                    commentExpenses(input, manager);
                     break;
                 }
                 case "G": {
-                    managerDAO.generateReports(input);
+                    generateReports(input, manager);
                     break;
                 }
                 case "Q": {
@@ -59,8 +60,6 @@ public class App
                     input.close();
                     isrunning = false;
                     System.out.println("Exiting Manager Application. Goodbye!");
-
-                    System.exit(0);
                     break;
                 }
                 default: {
@@ -88,4 +87,106 @@ public class App
         }
 
     }
+
+
+    public static void approveDenyExpenses(Scanner input, managerDAO manager){
+        System.out.println("Pending expenses...");
+        List<Expense> expenses = manager.getPendingExpenses();
+        ExpensePrinter.printExpenses(expenses);
+        System.out.println("Please enter the ID of the expense to review (0 to cancel): ");
+        
+        int expenseid = input.nextInt();
+        if(expenseid == 0){
+            System.out.println("Operation canceled");
+            return;
+        }
+        System.out.println("Approve or Deny? (A/D) (0 to Cancel): ");
+        String choice = input.next().trim().toUpperCase();
+        String status;
+        switch(choice){
+            case "A": {
+            status = "approved";
+            break;
+            }   
+            case "D":{
+            status = "denied";
+            break;
+            }
+            case "0":{
+            return;
+            }
+            default:{
+            System.out.println("Error, not a value.");
+            return;
+            }
+        }
+        boolean success = manager.approveDenyExpenses(expenseid, status);
+
+        if (success) {
+        System.out.println("Expense updated.");
+        } else {
+        System.out.println("Expense not found.");
+        }
+
+    }
+
+    public static void listExpenses(managerDAO manager){
+        List<Expense> expenses = manager.getAllExpenses();
+        ExpensePrinter.printExpenses(expenses);
+    }
+
+    public static void commentExpenses(Scanner input, managerDAO manager){
+        List<Expense> expenses = manager.getAllExpenses();
+        ExpensePrinter.printExpenses(expenses);
+
+        System.out.println("Please enter the ID of the expense to comment (0 to cancel): ");
+        int expenseid = input.nextInt();
+
+        if (expenseid == 0){
+            System.out.println("Canceling Operation");
+            return;
+        }
+
+        System.out.println("Enter comment: ");
+        input.nextLine();
+        String comment = input.nextLine();
+
+        boolean success = manager.commentExpenses(expenseid, comment);
+
+        if (success == true){
+            System.out.println("Expense successfully updated");
+        }else{
+            System.out.println("Expense not found");
+        }
+    }
+
+
+       public static void generateReports(Scanner input, managerDAO manager){
+        System.out.println("   Generate Reports   ");
+        System.out.println("1. Expenses by Employee");
+        System.out.println("2. Expenses by Date");
+        System.out.println("3. Total Expenses by Employee");
+        System.out.println("0. Cancel");
+
+        System.out.println("Please enter your selection: ");
+
+        int option = input.nextInt();
+        input.nextLine();
+
+        switch (option) {
+        case 1:
+            reportManager.reportByEmployee(input, manager);
+            break;
+        case 2:
+            reportManager.reportByDate(input, manager);
+            break;
+        case 3:
+            reportManager.employeeTotals(manager);
+            break;
+        case 0:
+            return;
+        default:
+            System.out.println("Invalid selection.");
+    }
+}
 }
