@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import com.project0.util.ConnectManager;
 import com.project0.model.EmployeeTotal;
 import com.project0.model.Expense;
