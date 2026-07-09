@@ -39,7 +39,7 @@ public class reportManager {
 
             System.out.println("------------------");
             System.out.println("Employee: " + total.getUsername());
-            System.out.println("Expenses Submitted: " + total.getTotalExpenses());
+            System.out.println("Expenses Approved: " + total.getTotalExpenses());
             System.out.println("Total Amount: $" + total.getTotalAmount());
         }
     }   

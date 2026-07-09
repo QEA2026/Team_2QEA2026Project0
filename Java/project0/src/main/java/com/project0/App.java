@@ -32,7 +32,7 @@ public class App
         // main loop
         managerDAO manager = new managerDAO();
         while (isrunning == true){
-            System.out.println("L: List Pending Expenses");
+            System.out.println("L: List Expenses");
             System.out.println("A: Approve OR Deny Expenses");
             System.out.println("C: Add Comments to Expense Decisions");
             System.out.println("G: Generate Reports");

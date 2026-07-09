@@ -233,6 +233,8 @@ public List<EmployeeTotal> employeeTotals() {
         "SUM(e.amount) AS total_amount " +
         "FROM users u " +
         "JOIN expenses e ON u.id = e.user_id " +
+        "JOIN approvals a ON e.id = a.expense_id " +
+        "WHERE a.status = 'approved' " +
         "GROUP BY u.username " +
         "ORDER BY total_amount DESC";
 
