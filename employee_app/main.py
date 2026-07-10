@@ -65,7 +65,7 @@ while True:
 
         cursor.execute(
             """
-            SELECT e.id, e.amount, e.description, e.date, a.status
+            SELECT e.id, e.amount, e.description, e.date, a.status, a.comment
             FROM expenses e
             JOIN approvals a
             ON e.id = a.expense_id
@@ -88,6 +88,7 @@ Amount: ${expense[1]}
 Description: {expense[2]}
 Date: {expense[3]}
 Status: {expense[4]}
+Manager Comment: {expense[5]}
 -----------------------
 """)
 
